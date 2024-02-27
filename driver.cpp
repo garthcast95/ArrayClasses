@@ -1,110 +1,181 @@
 #include "Array.h"
+#include "Stack.h"
+#include "Fixed_Array.h"
+#include "Queue.h"
 #include <assert.h>
-#include <exception>
 #include <iostream>
 
-int main (int argc, char * argv [])
+int main(int argc, char *argv[])
 {
-  std::cout << "Running Tests..." << std::endl;
+    std::cout << "Running Tests" << std::endl;
+    std::cout << "Testing Array" << std::endl;
+    Array<int> a;
+    assert(a.size() == 0);
+    assert(a.max_size() == 0);
+    assert(a.find(1) == -1);
 
-  std::cout << "Testing Initialization" << std::endl;
-  // TODO Add code here to test your Array class.
-  Array a1;
-  assert(a1.size() == 0);
-  assert(a1.max_size() == 0);
+    Array<int> b;
+    assert(a == b);
+    a.resize(2);
+    assert(a.size() == 2);
+    assert(a.max_size() == 2);
+    assert(a != b);
 
-  Array a2(10);
-  assert(a2.size() == 10);
-  assert(a2.max_size() == 10);
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a2[i] == 0);
-  }
+    a.set(0, 1);
+    a.set(1, 2);
+    const Array<int> c(10, 5);
+    assert(c.size() == 10);
+    assert(c.find(5) == 0);
 
-  Array a3(10, 'a');
-  assert(a3.size() == 10);
-  assert(a3.max_size() == 10);
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a3[i] == 'a');
-  }
+    assert(a.size() == 2);
+    assert(a.get(0) == 1);
+    assert(a.get(1) == 2);
+    assert(a.find(1) == 0);
+    assert(a.find(2) == 1);
+    assert(a.find(3) == -1);
+    assert(a.find(1, 1) == -1);
 
-  Array a4 = a3;
-  assert(a4.size() == 10);
-  assert(a4.max_size() == 10);
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a4[i] == 'a');
-  }
+    a.resize(1);
+    assert(a.size() == 1);
+    assert(a.max_size() == 2);
 
-  Array a5(a4);
-  assert(a5.size() == 10);
-  assert(a5.max_size() == 10);
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a5[i] == 'a');
-  }
+    const Array<int> f(10, 5);
+    const Array<int> cp = f;
+    assert(f.size() == 10);
+    assert(cp.size() == 10);
 
-  std::cout << "Testing Get" << std::endl;
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a5.get(i) == 'a');
-  }
+    const Array<Array<double>*> arr(10);
+    assert (arr.size() == 10);
+    assert(arr.max_size() == 10);
 
-  std::cout << "Testing Resize" << std::endl;
-  a5.resize(20);
-  assert (a5.size() == 20);
-  assert (a5.max_size() == 20);
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a5[i] == 'a');
-  }
-  for (size_t i = 10; i<20; i++)
-  {
-    assert(a5[i] == 0);
-  }
+    std::cout << "Testing Stack" << std::endl;
+    Stack<double> st;
+    assert(st.size() == 0);
+    assert(st.is_empty() == true);
+    try
+    {
+        st.pop();
+        assert(false);
+    }
+    catch (Stack<double>::empty_exception e)
+    {
+        assert(true);
+    }
+    try
+    {
+        st.top();
+        assert(false);
+    }
+    catch (Stack<double>::empty_exception e)
+    {
+        assert(true);
+    }
 
-  a5.resize(5);
-  assert(a5.size() == 5);
-  assert(a5.max_size() == 20);
-  for (size_t i=0; i<5; i++)
-  {
-    assert(a5[i] == 'a');
-  }
-  try
-  {
-    a5[5];
-    std::cout << "Test Failed. Exiting.\n";
-  }
-  catch (std::exception& e) {}
+    st.push(1.0);
+    assert(st.size() == 1);
+    assert(st.top() == 1.0);
+    assert(!st.is_empty());
 
-  std::cout << "Testing Find" << std::endl;
-  Array a6(10);
-  for (size_t i=0; i<10; i++)
-  {
-    a6[i] = 'a'+i;
-  }
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a6.find('a'+i) == i);
-  }
-  assert(a6.find('z') == -1);
+    st.pop();
+    assert(st.size() == 0);
+    assert(st.is_empty() == true);
+    try
+    {
+        st.pop();
+        assert(false);
+    }
+    catch (Stack<double>::empty_exception e)
+    {
+        assert(true);
+    }
+    try
+    {
+        st.top();
+        assert(false);
+    }
+    catch (Stack<double>::empty_exception e)
+    {
+        assert(true);
+    }
+    for (int i=0; i<100; i++)
+    {
+        st.push(i);
+    }
 
-  std::cout << "Testing Slice" << std::endl;
-  Array slice = a6.slice(4);
-  for (size_t i=0; i<6; i++)
-  {
-    assert(slice[i] == 'a'+4+i);
-  }
+    st.clear();
+    assert (st.size() == 0);
+    st.push(1);
+    assert(st.top() == 1);
 
-  std::cout << "Testing Reverse" << std::endl;
-  a6.reverse();
-  for (size_t i=0; i<10; i++)
-  {
-    assert(a6[i] = 'a'+9-i);
-  }
+    Stack<int> stc;
+    for (int i = 0; i < 100; i++)
+    {
+        stc.push(i);
+    }
+    assert(stc.size() == 100);
+    for (int i = 99; i >= 0; i--)
+    {
+        assert(stc.top() == i);
+        stc.pop();
+    }
+    assert(stc.is_empty());
 
-  std::cout << "All Tests Passed." << std::endl;
+    const Stack<int> stcpa;
 
-  return 0;
+    std::cout << "Testing Fixed Array" << std::endl;
+
+    Fixed_Array<int, 10> fa;
+    fa.fill(5);
+    for (int i = 0; i < 10; i++)
+    {
+        assert(fa.get(i) == 5);
+    }
+    const Fixed_Array<int, 10> fa2(5);
+
+    for (int i = 0; i < 10; i++)
+    {
+        assert(fa2.get(i) == 5);
+    }
+    const Fixed_Array<int, 10> facpa;
+    const Fixed_Array<int, 10> facpb;
+    assert(facpa.size() == facpb.size());
+    const Fixed_Array<int, 20> facbc(facpa);
+    assert(facbc.size() == 20);
+
+    std::cout << "Testing Queue" << std::endl;
+
+    Queue<int> q;
+    assert(q.size() == 0);
+
+    for (int i = 0; i < 100; i++)
+    {
+        q.enqueue(i);
+        assert(q.size() == (size_t)i + 1);
+    }
+    for (int i = 0; i < 100; i++)
+    {
+        assert(q.dequeue() == i);
+        assert(q.size() == (size_t)100 - i - 1);
+    }
+    assert(q.is_empty());
+
+    for (int i = 0; i < 100; i++)
+    {
+        q.enqueue(i);
+        assert(q.size() == (size_t)i + 1);
+    }
+    assert(q.size() == 100);
+    q.clear();
+    assert(q.is_empty());
+    try
+    {
+        q.dequeue();
+        assert(false);
+    }
+    catch (Queue<int>::empty_exception e)
+    {
+        assert(true);
+    }
+
+    std::cout << "All tests pass!\n";
 }

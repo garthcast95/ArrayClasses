@@ -1,19 +1,19 @@
 
 
-all: Array
+all: assignment2
 
-depend: Array-depend
+depend: assignment2-depend
 
 clean generated realclean check-syntax $(CUSTOM_TARGETS):
-	@$(MAKE) -f Makefile.Array $(@)
+	@$(MAKE) -f Makefile.assignment2 $(@)
 
-.PHONY: Array
-Array:
-	@$(MAKE) -f Makefile.Array all
+.PHONY: assignment2
+assignment2:
+	@$(MAKE) -f Makefile.assignment2 all
 
-.PHONY: Array-depend
-Array-depend:
-	@$(MAKE) -f Makefile.Array depend
+.PHONY: assignment2-depend
+assignment2-depend:
+	@$(MAKE) -f Makefile.assignment2 depend
 
 project_name_list:
-	@echo Array
+	@echo assignment2
