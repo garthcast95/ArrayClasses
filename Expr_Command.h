@@ -1,11 +1,17 @@
-#ifndef EXPR_COMMAND_H
-#define EXPR_COMMAND_H
+#ifndef Expr_Command_H_EXISTS
+#define Expr_Command_H_EXISTS
+
+#include <iostream>
+class Expr_Command_Visitor;
 
 class Expr_Command {
 public:
-	virtual ~Expr_Command() = default;
-	virtual bool execute() = 0;
-	virtual int getPrecedence() const;
+	Expr_Command ();
+	virtual ~Expr_Command();
+	virtual int eval() = 0;
+	virtual int precedence() = 0;
+	virtual void printName() = 0;
+	virtual void accept(Expr_Command_Visitor * visitor) = 0;
 };
 
-#endif // EXPR_COMMAND_H
+#endif

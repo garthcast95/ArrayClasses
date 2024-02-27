@@ -1,5 +1,6 @@
 #include "Expr_Command.h"
+#include "Expr_Command_Visitor.h"
+Expr_Command::Expr_Command () 
+{ }
 
-int Expr_Command::getPrecedence() const {
-	return 0;
-}
+Expr_Command::~Expr_Command () {}

@@ -13,11 +13,8 @@
 #ifndef _CS507_STACK_H_
 #define _CS507_STACK_H_
 
+#include <exception>
 #include "Array.h"
-#include <stdexcept>
-// COMMENT You are to use either aggregation or inheritence for the system
-// design.
-
 /**
  * @class Stack
  *
@@ -35,20 +32,12 @@ public:
    *
    * Exception thrown to indicate the stack is empty.
    */
-  class empty_exception : public std:: runtime_error
+  class empty_exception : public std::exception
   {
   public:
     /// Default constructor.
     empty_exception (void)
-      : std::runtime_error ("") { }
-
-    /**
-     * Initializing constructor.
-     *
-     * @param[in]      msg         Error message.
-     */
-    empty_exception (const char * msg)
-      : std::runtime_error (msg) { }
+      : std::exception () { }
   };
 
   /// Default constructor.
@@ -110,11 +99,17 @@ public:
   /// Remove all elements from the stack.
   void clear (void);
 
+  // Reverse the array
+  void reverse (void);
 private:
-//  char elements[20];
-	Array<T> stack_arr;
-  int max_size;
-  int stack_top;
+  // add member variable here
+  // COMMENT There is no need to allocate the array on the heap. Always try to 
+  // allocate on the stack to reduce the ccomplexity of the code.
+  // Response allocated on stack now
+  Array <T> arr;
+
+  //top of the stack
+  int head;
 };
 
 // include the inline files

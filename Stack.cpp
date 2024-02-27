@@ -1,18 +1,20 @@
-//#include "Stack.h"
+// $Id: Stack.cpp 827 2011-02-07 14:20:53Z hillj $
+
+// Honor Pledge:
+//
+// I pledge that I have neither given nor received any help
+// on this assignment.
 
 //
 // Stack
 //
+#include "Stack.h"
+
 template <typename T>
 Stack <T>::Stack (void)
-	: max_size(20)
-	, stack_arr(20)
-	, stack_top(-1)
+: arr (Array<T>()),
+head (-1)
 {
-    // COMMENT The elements_ variable is used, but never defined.
-//    this->elements = NULL;
-//    this->max_size = 0;
-//    this->stack_top = -1;
 }
 
 //
@@ -20,15 +22,10 @@ Stack <T>::Stack (void)
 //
 template <typename T>
 Stack <T>::Stack (const Stack & stack)
-	: max_size(stack.max_size)
-	, stack_top(stack.stack_top)
-	, stack_arr(stack.max_size)
+: arr (Array<T>(stack.arr)),
+head (stack.head)
 {
-    // COMMENT The elements_ variable is used, but never defined.
-//    this->elements = stack.elements;
-//    this->stack_top = stack.stack_top;
-//    this->size = stack.size;
-	stack_arr = stack.stack_arr;
+
 }
 
 //
@@ -45,19 +42,20 @@ Stack <T>::~Stack (void)
 template <typename T>
 void Stack <T>::push (T element)
 {
-   // COMMENT The elements_ variable is used, but never defined.
-//    this->elements[this->stack_top] = element;
-//    this->stack_top++;
-//    this->size_stack++;
-	if (stack_top == max_size - 1) {
-		if (max_size == 0) {
-			stack_arr.resize(20);
-		} else {
-			stack_arr.resize( 2 * max_size );
-			max_size = 2 * max_size;
-		}
+	// if there is still room in the current array to expand
+	if (head + 1 < (int)arr.size()){
+		head++;
+		arr.set(head, element);
+	// if we can expand the array without allocating new memory
+	}else if (arr.size() < arr.max_size()) {
+		arr.resize(arr.size()+1);
+		head++;
+		arr.set(head, element);
+	} else{
+		arr.resize(arr.size()*2+1);
+		head++;
+		arr.set(head, element);
 	}
-	stack_arr[++stack_top] = element;
 }
 
 //
@@ -66,10 +64,10 @@ void Stack <T>::push (T element)
 template <typename T>
 void Stack <T>::pop (void)
 {
-	if (!is_empty()) {
-		this->stack_top--;
-	} else {
-		empty_exception("Stack empty can not pop!!");
+	if(head != -1){
+		head--;
+	}else {
+		throw empty_exception();
 	}
 }
 
@@ -79,15 +77,9 @@ void Stack <T>::pop (void)
 template <typename T>
 const Stack <T> & Stack <T>::operator = (const Stack & rhs)
 {
-	if (this != &rhs) {
-		stack_arr = rhs.stack_arr;
-		stack_top = rhs.stack_top;
-		max_size = rhs.max_size;
-	}
-//	this->elements = rhs.elements ;
-//	this->size_stack = rhs.size_stack ;
-//    this->stack_top = rhs.stack_top;
-	return *this;
+	head = rhs.head;
+	arr = rhs.arr;
+
 }
 
 //
@@ -96,7 +88,11 @@ const Stack <T> & Stack <T>::operator = (const Stack & rhs)
 template <typename T>
 void Stack <T>::clear (void)
 {
-    this->stack_top = -1;
-    this->max_size = 0;
-	this->stack_arr.resize(0);
+	head = -1;
+}
+
+template <typename T>
+void Stack <T>::reverse() {
+	arr.resize(head+1);
+	arr.reverse();
 }

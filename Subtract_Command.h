@@ -1,14 +1,19 @@
 #ifndef SUBTRACT_COMMAND_H
 #define SUBTRACT_COMMAND_H
 
-#include "Stack.h"
-#include "Binary_Op_Command.h"
+#include "Binary_Expr_Command.h"
 
-class Subtract_Command : public Binary_Op_Command {
+class Subtract_Command : public Binary_Expr_Command {
 public:
-	Subtract_Command(Stack<int>& s);
-	int evaluate(int n1, int n2) const override;
+	Subtract_Command ();
+
+	int eval ();
+
+	int precedence();
+
+	void printName();
+
+	void accept(Expr_Command_Visitor * visitor);
 };
 
-
-#endif //SUBTRACT_COMMAND_H
+#endif

@@ -1,54 +1,61 @@
-#ifndef ARRAY_BASE_H
-#define ARRAY_BASE_H
+#ifndef ARRAY_BASE_H_EXISTS
+#define ARRAY_BASE_H_EXISTS
 
 #include <cstring>
 
-template<typename T>
+template <typename T>
 class Array_Base {
-public:
-	typedef T type;
+	public:
+		typedef T type;
+		
+		Array_Base (void);
 
-	Array_Base();
+		Array_Base (size_t length);
 
-	Array_Base(size_t length);
+		Array_Base (size_t length, T fill);
 
-	Array_Base(size_t length, T fill);
+		Array_Base (const Array_Base & arr);
 
-	Array_Base(const Array_Base<T> &arr);
+		~Array_Base(void);
 
-	~Array_Base();
+		const Array_Base & operator = (const Array_Base & rhs);
 
-	const Array_Base<T>& operator=(const Array_Base<T> &rhs);
+		size_t size(void) const;
 
-	T &operator[](size_t index);
+		size_t max_size (void) const;
 
-	const T &operator[](size_t index) const;
+		virtual T & operator [] (size_t index);
 
-	bool operator==(const Array_Base<T> &rhs) const;
+		const T & operator [] (size_t index) const;
 
-	bool operator!=(const Array_Base<T> &rhs) const;
+		T get (size_t index) const;
 
-	virtual size_t size() const;
+		void set (size_t index, T value);
 
-	virtual size_t max_size() const;
+		int find (T element) const;
 
-	virtual T get(size_t index) const;
+		int find (T element, size_t start) const;
 
-	virtual void set(size_t index, T value);
+		bool operator == (const Array_Base & rhs) const;
 
-	virtual int find(T element) const;
+		bool operator != (const Array_Base & rhs) const;
 
-	virtual int find(T element, size_t start) const;
+		void fill (T element);
 
-	virtual void fill(T element);
+		void reverse ();
 
-protected:
-	T *data_;
-	size_t size_;
-	size_t max_size_;
+		Array_Base slice (size_t begin) const;
+
+		Array_Base slice (size_t begin, size_t end) const;
+	protected:
+		Array_Base (T * data_, size_t cur_size_, size_t max_size_);
+		T * data_;
+		size_t cur_size_;
+		size_t max_size_;
+		bool notSlice_ = true;
 };
 
 #include "Array_Base.inl"
 #include "Array_Base.cpp"
 
-#endif //ARRAY_BASE_H
+#endif

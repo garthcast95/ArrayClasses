@@ -13,8 +13,9 @@ template <typename T>
 inline
 size_t Stack <T>::size (void) const
 {
-	return this->stack_top + 1;
+	return head+1;
 }
+
 //
 // top
 //
@@ -22,11 +23,10 @@ template <typename T>
 inline
 T Stack <T>::top (void) const
 {
-//	return elements[this->stack_top];
-	if (is_empty() == true) {
-		empty_exception("Stack is empty");
+	if (head == -1) {
+		throw empty_exception();
 	}
-	return stack_arr[stack_top];
+	return arr.get(head);
 }
 
 //
@@ -36,10 +36,5 @@ template <typename T>
 inline
 bool Stack <T>::is_empty (void) const
 {
-//	if(this->stack_top == -1)
-//	{
-//		empty_exception e;
-//	}
-
-	return (stack_top == -1);
+	return head == -1;
 }

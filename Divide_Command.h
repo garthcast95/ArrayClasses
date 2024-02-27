@@ -1,14 +1,20 @@
-#ifndef DIVIDE_COMMAND_H
-#define DIVIDE_COMMAND_H
+#ifndef DIVIDE_COMMAND_H_EXISTS
+#define DIVIDE_COMMAND_H_EXISTS
 
-#include "Stack.h"
-#include "Binary_Op_Command.h"
+#include "Binary_Expr_Command.h"
 
-class Divide_Command : public Binary_Op_Command {
+class Divide_Command : public Binary_Expr_Command { 
 public:
-	Divide_Command(Stack<int> &s);
-	int evaluate(int n1, int n2) const override;
+	Divide_Command ();
+
+	int eval ();
+
+	int precedence();
+
+	void printName();
+
+	void accept(Expr_Command_Visitor * visitor);
 };
 
 
-#endif //DIVIDE_COMMAND_H
+#endif

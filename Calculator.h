@@ -1,14 +1,22 @@
-#ifndef CALCULATOR_H
-#define CALCULATOR_H
+#ifndef CALCULATOR_H_EXISTS
+#define CALCULATOR_H_EXISTS
 
-#include "Array.h"
-#include "Stack_Expr_Command_Factory.h"
-#include <string>
+#include "Binary_Expr_Command.h"
+//#include "Add_Command.h"
+//#include "Subtract_Command.h"
+#include "Stack.h"
 
 class Calculator {
 public:
-	bool infix_to_postfix(const std::string &infix, Expr_Command_Factory &factory, Array<Expr_Command *> &postfix);
+	Calculator ();
+	~Calculator ();
+	void addOp (Binary_Expr_Command * op);
+	void addCommand (Expr_Command * node);
+	void print();
+	Expr_Command * get_expression();
+private:
+	Stack<Expr_Command *> nodes_;
+	Stack<Binary_Expr_Command *> ops_;
 };
 
-
-#endif //CALCULATOR_H
+#endif

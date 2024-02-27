@@ -1,13 +1,14 @@
-#ifndef ADD_COMMAND_H
-#define ADD_COMMAND_H
+#ifndef ADD_COMMAND_H_EXISTS
+#define ADD_COMMAND_H_EXISTS
 
-#include "Stack.h"
-#include "Binary_Op_Command.h"
+#include "Binary_Expr_Command.h"
 
-class Add_Command : public Binary_Op_Command {
+class Add_Command : public Binary_Expr_Command {
 public:
-	Add_Command(Stack<int> &s);
-	int evaluate(int n1, int n2) const override;
+	Add_Command ();
+	int eval ();
+	int precedence();
+	void printName();
+	void accept(Expr_Command_Visitor * visitor);
 };
-
-#endif //ADD_COMMAND_H
+#endif
