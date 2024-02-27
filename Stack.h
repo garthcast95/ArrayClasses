@@ -35,12 +35,20 @@ public:
    *
    * Exception thrown to indicate the stack is empty.
    */
-  class empty_exception : public std::exception
+  class empty_exception : public std:: runtime_error
   {
-    const char* what() const throw()
-    {
-      return "Empty stack exception";
-    }
+  public:
+    /// Default constructor.
+    empty_exception (void)
+      : std::runtime_error ("") { }
+
+    /**
+     * Initializing constructor.
+     *
+     * @param[in]      msg         Error message.
+     */
+    empty_exception (const char * msg)
+      : std::runtime_error (msg) { }
   };
 
   /// Default constructor.
@@ -76,7 +84,7 @@ public:
   void pop (void);
 
   /**
-   * Get the top-most element on the stack. If there are no element
+   * Get the top-most element on the stack. If there are no element 
    * on the stack, then the stack_is_empty exception is thrown.
    *
    * @return         Element on top of the stack.
@@ -105,9 +113,12 @@ public:
 private:
 //  char elements[20];
 	Array<T> stack_arr;
-  size_t max_size;
+  int max_size;
   int stack_top;
 };
+
+// include the inline files
+#include "Stack.inl"
 
 // include the source file since template class
 #include "Stack.cpp"
